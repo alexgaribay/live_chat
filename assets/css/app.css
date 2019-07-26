@@ -1,0 +1,157 @@
+/* This file is for your main application css. */
+@import "../../deps/phoenix_live_view/assets/css/live_view.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply text-gray-700;
+}
+
+input[type="text"] {
+  @apply outline-none;
+}
+
+.text-field {
+  @apply mb-2
+}
+
+.text-field input[type="text"] {
+  @apply text-xl;
+  @apply border-b;
+}
+
+.text-field input[type="text"]:focus {
+  @apply border-gray-700;
+}
+
+.text-field.text-field-error input[type="text"] {
+  @apply border-red-500;
+}
+
+.text-field .error_tag {
+  @apply text-sm;
+  @apply text-red-500;
+}
+
+.fullscreen {
+  @apply h-screen;
+	@apply w-screen;
+	@apply flex;
+	@apply justify-center;
+	@apply items-center;
+}
+
+.chat {
+	@apply w-full;
+	@apply h-full;
+	display: grid;
+	grid-template-rows: 4rem 1fr min-content;
+	grid-template-columns: 1fr min-content;
+	grid-template-areas:
+		"toolbar toolbar"
+		"main sidebar"
+		"messaging sidebar";
+}
+
+.main {
+	grid-area: main;
+	scrollbar-color: #f05423 transparent;
+	overflow-y: scroll;
+}
+
+.toolbar {
+	@apply w-full;
+	@apply flex;
+	@apply items-center;
+	@apply justify-end;
+	@apply px-2;
+	@apply border-t;
+	@apply border-b;
+	grid-area: toolbar;
+}
+
+.message-wrapper {
+	@apply h-full;
+	@apply flex;
+	@apply flex-col;
+}
+
+.messaging {
+  grid-area: messaging;
+	@apply bg-white;
+	@apply px-4;
+}
+
+.messaging form {
+  @apply flex;
+}
+
+.message {
+  @apply px-4;
+	@apply py-1;
+}
+
+.message .user {
+	@apply font-extrabold;
+	@apply cursor-pointer;
+}
+
+.message .user:hover {
+	@apply underline;
+}
+
+.message-input {
+  @apply p-2;
+	@apply border-2;
+	@apply rounded;
+	@apply flex-grow;
+}
+
+.typing-indicator {
+	@apply text-sm;
+	@apply mb-1;
+	@apply h-4;
+}
+
+.button {
+  @apply py-1;
+	@apply px-4;
+	@apply rounded-full;
+	@apply bg-gray-500;
+	@apply text-white;
+}
+
+.sidebar {
+	grid-area: sidebar;
+}
+
+.sidebar-content {
+	@apply border-l;
+	@apply flex;
+	@apply flex-grow;
+	@apply flex-col;
+	@apply h-full;
+	@apply w-64;
+}
+
+.sidebar-content.hidden {
+	@apply hidden;
+}
+
+.sidebar-content-users {
+	@apply p-4;
+}
+
+.sidebar-content-profile {
+  @apply items-center;
+	@apply p-4;
+}
+
+.sidebar-content-profile .avatar {
+  @apply rounded-full;
+	@apply h-32;
+	@apply w-32;
+	@apply mb-4;
+}
