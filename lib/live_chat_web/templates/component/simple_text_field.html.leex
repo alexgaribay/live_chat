@@ -1,0 +1,6 @@
+<div class="text-field<%= if Enum.any?(@errors), do: " text-field-error"%>">
+  <%= text_input @form, @name, @opts %>
+  <%= for error <- @errors do %>
+    <p class="error_tag"><%= error %></p>
+  <% end %>
+</div>
