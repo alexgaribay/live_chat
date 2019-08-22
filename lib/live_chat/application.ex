@@ -9,9 +9,12 @@ defmodule LiveChat.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      LiveChatWeb.Endpoint
+      LiveChatWeb.Endpoint,
       # Starts a worker by calling: LiveChat.Worker.start_link(arg)
       # {LiveChat.Worker, arg},
+      LiveChat.MagicLinks,
+      LiveChat.ChatServer,
+      LiveChat.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

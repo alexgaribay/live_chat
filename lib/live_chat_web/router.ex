@@ -5,6 +5,7 @@ defmodule LiveChatWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
+    plug Phoenix.LiveView.Flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -17,6 +18,8 @@ defmodule LiveChatWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/session/:token", PageController, :put_session
+    get "/logout", PageController, :drop_session
   end
 
   # Other scopes may use custom stacks.

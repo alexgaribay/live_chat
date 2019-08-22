@@ -1,0 +1,24 @@
+<div class="fullscreen">
+	<div class="chat">
+		<div class="toolbar">
+			<button class="button" phx-click="show_online">Show Online Users</button>
+		</div>
+		<div class="main">
+			<div class="message-wrapper">
+				<%= for %{user: %{name: name}, message: message} <- @messages do %>
+					<div class="message" phx-hook="NewMessage">
+						<span class="user" phx-click="show_user_profile" phx-value="<%= name %>"><%= name %></span>
+						<p><%= message %></p>
+					</div>
+				<% end %>
+			</div>
+		</div>
+		<div class="messaging">
+			<%= f = form_for @changeset, "#", [phx_change: "update", phx_submit: :send, as: :chat] %>
+				<%= text_input f, :message, class: "message-input", placeholder: "Message #general" %>
+			</form>
+			<p class="typing-indicator"><%= format_typing(@users_typing) %></p>
+		</div>
+		<%= live_render @socket, LiveChatWeb.SidebarLive, container: {:div, class: "sidebar"}, session: %{visible: @sidebar_open?} %>
+	</div>
+</div>
