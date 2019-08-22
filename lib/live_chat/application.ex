@@ -9,7 +9,7 @@ defmodule LiveChat.Application do
     # List all child processes to be supervised
     children = [
       # Start the Ecto repository
-      LiveChat.Repo,
+      # LiveChat.Repo,
       # Start the endpoint when the application starts
       LiveChatWeb.Endpoint
       # Starts a worker by calling: LiveChat.Worker.start_link(arg)
