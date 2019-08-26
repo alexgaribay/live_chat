@@ -11,6 +11,12 @@
 						<p><%= message %></p>
 					</div>
 				<% end %>
+				<%= if @last_message do %>
+					<div class="message" phx-hook="NewMessage" phx-update="append" x-created-at="<%= @last_message.created_at %>">
+						<span class="user" phx-click="show_user_profile" phx-value="<%= @last_message.user.name %>"><%= @last_message.user.name %></span>
+						<p><%= @last_message.message %></p>
+					</div>
+				<% end %>
 			</div>
 		</div>
 		<div class="messaging">

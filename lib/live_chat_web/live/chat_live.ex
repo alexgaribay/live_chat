@@ -18,6 +18,7 @@ defmodule LiveChatWeb.ChatLive do
 
     assigns = [
       messages: Chat.get_messages(),
+      last_message: nil,
       changeset: message_changeset(),
       user: user,
       sidebar_open?: false,
@@ -52,8 +53,8 @@ defmodule LiveChatWeb.ChatLive do
     {:noreply, socket}
   end
 
-  def handle_info({:messages, messages}, socket) do
-    {:noreply, assign(socket, :messages, messages)}
+  def handle_info({:new_message, message}, socket) do
+    {:noreply, assign(socket, :last_message, message)}
   end
 
   def handle_info({:users_typing, user_list}, socket) do

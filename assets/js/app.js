@@ -6,8 +6,14 @@ import LiveSocket from "phoenix_live_view"
 let Hooks = {}
 Hooks.NewMessage = {
   mounted(){
+    this.scroll(this.el)
+  },
+  updated(){
+    this.scroll(this.el)
+  },
+  scroll(newMessage){
     let messages = document.querySelector(".main")
-    if(messages.scrollTop + messages.offsetHeight + this.el.offsetHeight >= messages.scrollHeight) {
+    if(messages.scrollTop + messages.offsetHeight + newMessage.offsetHeight >= messages.scrollHeight) {
       messages.scrollTop = messages.scrollHeight;
     }
   }

@@ -28,9 +28,10 @@ defmodule LiveChat.ChatServer do
 	end
 
   def handle_cast({:new_message, user, message}, %{messages: messages, typing: typing} = state) do
-    new_messages = messages ++ [%{user: user, message: message}]
+    new_message = %{user: user, message: message, created_at: :os.system_time()}
+    new_messages = messages ++ [new_message]
 		typing = Map.delete(typing, user.name)
-    Phoenix.PubSub.broadcast!(LiveChat.PubSub, "lobby", {:messages, new_messages})
+    Phoenix.PubSub.broadcast!(LiveChat.PubSub, "lobby", {:new_message, new_message})
     Phoenix.PubSub.broadcast!(LiveChat.PubSub, "lobby", {:users_typing, Map.keys(typing)})
     {:noreply, %{state | messages: new_messages, typing: typing}}
   end
