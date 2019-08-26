@@ -7,9 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :live_chat,
-  ecto_repos: [LiveChat.Repo]
-
 # Configures the endpoint
 config :live_chat, LiveChatWeb.Endpoint,
   url: [host: "localhost"],
