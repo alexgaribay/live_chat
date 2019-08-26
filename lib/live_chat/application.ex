@@ -10,7 +10,7 @@ defmodule LiveChat.Application do
     children = [
       # Start the endpoint when the application starts
       LiveChatWeb.Endpoint,
-      MagicLinks
+      LiveChat.MagicLinks
       # Starts a worker by calling: LiveChat.Worker.start_link(arg)
       # {LiveChat.Worker, arg},
     ]

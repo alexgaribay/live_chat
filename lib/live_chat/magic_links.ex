@@ -34,6 +34,8 @@ defmodule LiveChat.MagicLinks do
   """
   @spec verify_token(String.t()) :: {:ok, user()} | {:error, :not_found}
   def verify_token(token) do
+    # Blow up if token fails to verify
+    {:ok, _token_base} = Phoenix.Token.verify(LiveChatWeb.Endpoint, @salt, token, max_age: 1_000)
     case Agent.get_and_update(__MODULE__, fn map -> Map.pop(map, token) end) do
       nil -> {:error, :not_found}
       user -> {:ok, user}
