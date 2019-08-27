@@ -2,6 +2,7 @@ defmodule LiveChatWeb.ConnectLive do
   use Phoenix.LiveView
   import Ecto.Changeset
   alias LiveChatWeb.ChatView
+  alias LiveChat.MagicLinks
 
   def mount(_params, socket) do
     assigns = [
@@ -28,12 +29,9 @@ defmodule LiveChatWeb.ConnectLive do
     |> join_changeset()
     |> Map.put(:action, :errors)
     |> case do
-      %{valid?: true, changes: %{name: name, email: email}} ->
-        assigns = [
-          name: name,
-          email: email
-        ]
-        {:noreply, assign(socket, assigns)}
+      %{valid?: true, changes: %{name: _name, email: _email} = user} ->
+        token = MagicLinks.generate_token(user)
+        {:noreply, redirect(socket, to: "/login/#{token}")}
 
       %{valid?: false} = changeset ->
         {:noreply, assign(socket, :changeset, changeset)}
