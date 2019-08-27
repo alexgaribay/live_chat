@@ -1,0 +1,17 @@
+<div class="fullscreen">
+  <div class="chat">
+    <div class="main">
+      <%= for {%{name: name}, message} <- @messages do %>
+        <div class="message">
+          <span class="user"><%= name %></span>
+          <p><%= message %></p>
+        </div>
+      <% end %>
+    </div>
+    <div class="messaging">
+      <%= f = form_for @changeset, "#", [phx_submit: :send, as: :chat] %>
+        <%= text_input f, :message, class: "message-input", placeholder: "Message #general" %>
+      </form>
+    </div>
+  </div>
+</div>
