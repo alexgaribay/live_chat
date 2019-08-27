@@ -1,9 +1,14 @@
 defmodule LiveChatWeb.ConnectLive do
   use Phoenix.LiveView
+  import Ecto.Changeset
   alias LiveChatWeb.ChatView
 
   def mount(_params, socket) do
-    {:ok, socket}
+    assigns = [
+      changeset: join_changeset()
+    ]
+
+    {:ok, assign(socket, assigns)}
   end
 
   def render(%{name: _name} = assigns) do
@@ -19,14 +24,34 @@ defmodule LiveChatWeb.ConnectLive do
   end
 
   def handle_event("join", %{"user" => user}, socket) do
-    name = user["name"]
-    email = user["email"]
+    user
+    |> join_changeset()
+    |> Map.put(:action, :errors)
+    |> case do
+      %{valid?: true, changes: %{name: name, email: email}} ->
+        assigns = [
+          name: name,
+          email: email
+        ]
+        {:noreply, assign(socket, assigns)}
 
-    assigns = [
-      name: name,
-      email: email
-    ]
+      %{valid?: false} = changeset ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
 
-    {:noreply, assign(socket, assigns)}
+  @types %{
+    name: :string,
+    email: :string
+  }
+
+  defp join_changeset(attrs \\ %{}) do
+    cast(
+      {%{}, @types},
+      attrs,
+      [:name, :email]
+    )
+    |> validate_required([:email, :name])
+    |> validate_format(:email, ~r/.+@.+/)
   end
 end
