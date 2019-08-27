@@ -23,6 +23,7 @@ defmodule LiveChatWeb do
 
       import Plug.Conn
       import LiveChatWeb.Gettext
+      import Phoenix.LiveView.Controller, only: [live_render: 3]
       alias LiveChatWeb.Router.Helpers, as: Routes
     end
   end
@@ -39,6 +40,11 @@ defmodule LiveChatWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
+      import Phoenix.LiveView, only: [
+        live_render: 2,
+        live_render: 3
+      ]
+
       import LiveChatWeb.ErrorHelpers
       import LiveChatWeb.Gettext
       alias LiveChatWeb.Router.Helpers, as: Routes
@@ -50,6 +56,7 @@ defmodule LiveChatWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 
