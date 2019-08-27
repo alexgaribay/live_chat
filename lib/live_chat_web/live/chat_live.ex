@@ -29,7 +29,7 @@ defmodule LiveChatWeb.ChatLive do
       |> assign(assigns)
       |> configure_temporary_assigns([:messages])
 
-    {:ok, assign(socket, assigns)}
+    {:ok, socket}
   end
 
   def render(assigns) do
