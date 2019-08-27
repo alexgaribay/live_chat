@@ -2,7 +2,7 @@
   <div class="chat">
     <div class="main">
       <%= for %{user: %{name: name}, message: message} <- @messages do %>
-        <div class="message">
+        <div class="message" phx-hook="NewMessage">
           <span class="user"><%= name %></span>
           <p><%= message %></p>
         </div>

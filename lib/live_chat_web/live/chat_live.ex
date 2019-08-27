@@ -25,6 +25,11 @@ defmodule LiveChatWeb.ChatLive do
     {:noreply, assign(socket, :messages, messages)}
   end
 
+  def handle_event("hi", attrs, socket) do
+    IO.inspect attrs, label: :event
+    {:noreply, socket}
+  end
+
   def handle_event("send", %{"chat" => attrs}, socket) do
     attrs
     |> message_changeset()

@@ -17,6 +17,14 @@ import "phoenix_html"
 // import socket from "./socket"
 
 import LiveSocket from "phoenix_live_view"
-
-let liveSocket = new LiveSocket("/live")
+let Hooks = {}
+Hooks.NewMessage = {
+  mounted(){
+    let messages = document.querySelector(".main")
+    if(messages.scrollTop + messages.offsetHeight + this.el.offsetHeight >= messages.scrollHeight){
+        this.el.scrollIntoView(false)
+    }
+  }
+}
+let liveSocket = new LiveSocket("/live", {hooks: Hooks})
 liveSocket.connect()
