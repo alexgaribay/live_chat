@@ -14,9 +14,10 @@
       </div>
     </div>
     <div class="messaging">
-      <%= f = form_for @changeset, "#", [phx_submit: :send, as: :chat] %>
+      <%= f = form_for @changeset, "#", [phx_submit: :send, phx_change: "update", as: :chat] %>
         <%= text_input f, :message, class: "message-input", placeholder: "Message #general" %>
       </form>
+      <p class="typing-indicator"><%= format_typing(@users_typing) %></p>
     </div>
     <%= live_render @socket, LiveChatWeb.SidebarLive, session: %{visible: @sidebar_open?}, container: {:div, class: "sidebar"} %>
   </div>
