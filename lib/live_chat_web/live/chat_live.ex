@@ -16,12 +16,19 @@ defmodule LiveChatWeb.ChatLive do
           joined_at: :os.system_time(:seconds)
         })
     end
+
     assigns = [
       changeset: message_changeset(),
       messages: Chat.get_messages(),
       user: user,
       sidebar_open?: false
     ]
+
+    socket =
+      socket
+      |> assign(assigns)
+      |> configure_temporary_assigns([:messages])
+
     {:ok, assign(socket, assigns)}
   end
 
@@ -29,8 +36,8 @@ defmodule LiveChatWeb.ChatLive do
     ChatView.render("chat.html", assigns)
   end
 
-  def handle_info({:messages, messages}, socket) do
-    {:noreply, assign(socket, :messages, messages)}
+  def handle_info({:new_message, message}, socket) do
+    {:noreply, assign(socket, :messages, [message])}
   end
 
   def handle_event("show_online", _attrs, socket) do

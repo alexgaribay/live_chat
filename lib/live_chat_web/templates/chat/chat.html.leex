@@ -4,12 +4,14 @@
       <button class="button" phx-click="show_online">Show Online Users</button>
     </div>
     <div class="main">
-      <%= for %{user: %{name: name}, message: message} <- @messages do %>
-        <div class="message" phx-hook="NewMessage">
-          <span class="user"><%= name %></span>
-          <p><%= message %></p>
-        </div>
-      <% end %>
+      <div class="message-wrapper" phx-update="append">
+        <%= for %{user: %{name: name}, message: message} <- @messages do %>
+          <div class="message" phx-hook="NewMessage">
+            <span class="user"><%= name %></span>
+            <p><%= message %></p>
+          </div>
+        <% end %>
+      </div>
     </div>
     <div class="messaging">
       <%= f = form_for @changeset, "#", [phx_submit: :send, as: :chat] %>
