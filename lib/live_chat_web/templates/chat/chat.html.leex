@@ -1,5 +1,8 @@
 <div class="fullscreen">
   <div class="chat">
+    <div class="toolbar">
+      <button class="button" phx-click="show_online">Show Online Users</button>
+    </div>
     <div class="main">
       <%= for %{user: %{name: name}, message: message} <- @messages do %>
         <div class="message" phx-hook="NewMessage">
@@ -13,5 +16,6 @@
         <%= text_input f, :message, class: "message-input", placeholder: "Message #general" %>
       </form>
     </div>
+    <%= live_render @socket, LiveChatWeb.SidebarLive, session: %{visible: @sidebar_open?}, container: {:div, class: "sidebar"} %>
   </div>
 </div>

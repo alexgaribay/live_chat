@@ -4,15 +4,23 @@ defmodule LiveChatWeb.ChatLive do
   alias LiveChatWeb.ChatView
   alias LiveChat.PubSub
   alias LiveChat.ChatServer, as: Chat
+  alias LiveChat.Presence
 
   def mount(%{user: user}, socket) do
     if connected?(socket) do
       Phoenix.PubSub.subscribe(PubSub, "lobby")
+      {:ok, _} =
+        Presence.track(self(), "lobby", user.name, %{
+          name: user.name,
+          email: user.email,
+          joined_at: :os.system_time(:seconds)
+        })
     end
     assigns = [
       changeset: message_changeset(),
       messages: Chat.get_messages(),
-      user: user
+      user: user,
+      sidebar_open?: false
     ]
     {:ok, assign(socket, assigns)}
   end
@@ -23,6 +31,12 @@ defmodule LiveChatWeb.ChatLive do
 
   def handle_info({:messages, messages}, socket) do
     {:noreply, assign(socket, :messages, messages)}
+  end
+
+  def handle_info(_, socket), do: {:noreply, socket}
+
+  def handle_event("show_online", _attrs, socket) do
+    {:noreply, assign(socket, :sidebar_open?, !socket.assigns.sidebar_open?)}
   end
 
   def handle_event("send", %{"chat" => attrs}, socket) do

@@ -1,0 +1,5 @@
+<div class="sidebar-content <%= sidebar_class(@visible) %>">
+  <%= for {name, _} <- @users do %>
+    <p> <%= name %> </p>
+  <% end %>
+</div>
