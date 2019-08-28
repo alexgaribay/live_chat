@@ -22,17 +22,36 @@ defmodule LiveChatWeb.ChatLive do
       messages: Chat.get_messages(),
       changeset: message_changeset(),
       counter: 0,
-      sidebar_open?: false
+      sidebar_open?: false,
+      users_typing: []
     ]
-    {:ok, assign(socket, assigns)}
+
+    socket =
+      socket
+      |> assign(assigns)
+      |> configure_temporary_assigns([:messages])
+
+    {:ok, socket}
   end
 
   def render(assigns) do
     ChatView.render("chat.html", assigns)
   end
 
-  def handle_info({:messages, messages}, socket) do
-    {:noreply, assign(socket, messages: messages)}
+  def handle_info({:new_message, message}, socket) do
+    {:noreply, assign(socket, messages: [message])}
+  end
+
+  def handle_info({:users_typing, map_of_users}, socket) do
+    users_typing = Enum.reject(map_of_users, fn user_map -> user_map == socket.assigns.user end)
+
+    {:noreply, assign(socket, :users_typing, users_typing)}
+  end
+
+  def handle_event("typing", _, socket) do
+    Chat.user_typing(socket.assigns.user)
+
+    {:noreply, socket}
   end
 
   def handle_event("send", %{"chat" => attrs}, socket) do
