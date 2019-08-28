@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="messaging">
-      <%= f = form_for :chat, "#", [phx_submit: :send] %>
+      <%= f = form_for @changeset, "#", [phx_submit: :send, as: :chat] %>
         <%= text_input f, :message, class: "message-input", placeholder: "Message #general" %>
       </form>
     </div>
