@@ -4,10 +4,17 @@ defmodule LiveChatWeb.ChatLive do
   alias LiveChatWeb.ChatView
   alias LiveChat.PubSub
   alias LiveChat.ChatServer, as: Chat
+  alias LiveChat.Presence
 
   def mount(%{user: user}, socket) do
     if connected?(socket) do
       Phoenix.PubSub.subscribe(PubSub, "lobby")
+      {:ok, _} =
+        Presence.track(self(), "lobby:presence", user.name, %{
+          name: user.name,
+          email: user.email,
+          joined_at: :os.system_time(:seconds)
+        })
     end
 
     assigns = [
