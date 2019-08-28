@@ -4,7 +4,7 @@
       <button class="button" phx-click="show_online">Show Online Users</button>
     </div>
     <div class="main">
-      <div class="message-wrapper">
+      <div class="message-wrapper" phx-update="append">
         <%= for %{user: %{name: name}, message: message} <- @messages do %>
           <div class="message" phx-hook="NewMessage">
             <span class="user"><%= name %></span>
