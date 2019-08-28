@@ -1,10 +1,10 @@
 <div class="fullscreen">
-  <%= form_for :user, "#", [phx_submit: :join], fn f -> %>
+  <%= f = form_for :user, "#", [phx_submit: :join] %>
     <%= Components.simple_text_field f, :name, placeholder: "Enter a name" %>
     <%= Components.simple_text_field f, :email , placeholder: "Enter an email" %>
 
     <div>
       <%= submit "Join", class: "button" %>
     </div>
-  <% end %>
+  </form>
 </div>
