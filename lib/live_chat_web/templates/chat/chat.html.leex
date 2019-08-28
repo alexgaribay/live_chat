@@ -2,7 +2,7 @@
   <div class="chat">
     <div class="main">
       <div class="message-wrapper">
-        <%= for {%{name: name}, message} <- @messages do %>
+        <%= for %{user: %{name: name}, message: message} <- @messages do %>
           <div class="message">
             <span class="user"><%= name %></span>
             <p><%= message %></p>
