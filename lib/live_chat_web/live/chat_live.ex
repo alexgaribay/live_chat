@@ -13,7 +13,8 @@ defmodule LiveChatWeb.ChatLive do
     assigns = [
       user: user,
       messages: Chat.get_messages(),
-      changeset: message_changeset()
+      changeset: message_changeset(),
+      counter: 0
     ]
     {:ok, assign(socket, assigns)}
   end
@@ -33,7 +34,8 @@ defmodule LiveChatWeb.ChatLive do
       %{valid?: true, changes: %{message: message}} ->
           Chat.new_message(socket.assigns.user, message)
           assigns = [
-            changeset: message_changeset()
+            changeset: message_changeset(%{counter: socket.assigns.counter}),
+            counter: socket.assigns.counter + 1
           ]
           {:noreply, assign(socket, assigns)}
       %{valid?: false} = changeset ->
