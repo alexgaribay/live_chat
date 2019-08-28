@@ -49,5 +49,17 @@ defmodule LiveChatWeb.ConnectLive do
     )
     |> validate_required([:email, :name])
     |> validate_format(:email, ~r/.+@.*/)
+    |> validate_unique_name()
   end
-end
+
+  defp validate_unique_name(changeset) do
+    name = get_change(changeset, :name)
+
+    if LiveChat.Presence.list("lobby:presence")[name] do
+      add_error(changeset, :name, "already taken")
+    else
+      changeset
+    end
+  end
+
+ end
