@@ -14,7 +14,8 @@ defmodule LiveChatWeb.ChatLive do
       user: user,
       messages: Chat.get_messages(),
       changeset: message_changeset(),
-      counter: 0
+      counter: 0,
+      sidebar_open?: false
     ]
     {:ok, assign(socket, assigns)}
   end
@@ -41,6 +42,10 @@ defmodule LiveChatWeb.ChatLive do
       %{valid?: false} = changeset ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
+  end
+
+  def handle_event("show_online", _params, socket) do
+    {:noreply, assign(socket, :sidebar_open?, !socket.assigns.sidebar_open?)}
   end
 
   @types %{message: :string}
