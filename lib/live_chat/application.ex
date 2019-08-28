@@ -11,7 +11,8 @@ defmodule LiveChat.Application do
       # Start the endpoint when the application starts
       LiveChatWeb.Endpoint,
       LiveChat.MagicLinks,
-      LiveChat.ChatServer
+      LiveChat.ChatServer,
+      LiveChat.Presence
       # Starts a worker by calling: LiveChat.Worker.start_link(arg)
       # {LiveChat.Worker, arg},
     ]
