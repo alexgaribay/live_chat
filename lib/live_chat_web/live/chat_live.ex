@@ -23,7 +23,9 @@ defmodule LiveChatWeb.ChatLive do
       changeset: message_changeset(),
       counter: 0,
       sidebar_open?: false,
-      users_typing: []
+      users_typing: [],
+      sidebar_view: :user_list,
+      sidebar_data: nil
     ]
 
     socket =
@@ -52,6 +54,17 @@ defmodule LiveChatWeb.ChatLive do
     Chat.user_typing(socket.assigns.user)
 
     {:noreply, socket}
+  end
+
+  def handle_event("show_profile", user_name, socket) do
+    %{metas: [selected_user]} = Presence.get_by_key("lobby:presence", user_name)
+    assigns = [
+      sidebar_view: :user_profile,
+      sidebar_data: selected_user,
+      sidebar_open?: true
+    ]
+
+    {:noreply, assign(socket, assigns)}
   end
 
   def handle_event("send", %{"chat" => attrs}, socket) do

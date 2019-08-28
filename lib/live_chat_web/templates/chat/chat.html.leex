@@ -7,7 +7,7 @@
       <div class="message-wrapper" phx-update="append">
         <%= for %{user: %{name: name}, message: message} <- @messages do %>
           <div class="message" phx-hook="NewMessage">
-            <span class="user"><%= name %></span>
+            <span class="user" phx-click="show_profile" phx-value="<%= name %>"><%= name %></span>
             <p><%= message %></p>
           </div>
         <% end %>
@@ -20,6 +20,6 @@
       </form>
       <p class="typing-indicator"><%= format_typing(@users_typing) %></p>
     </div>
-    <%= live_render @socket, LiveChatWeb.SidebarLive, session: %{visible: @sidebar_open?}, container: {:div, class: "sidebar"} %>
+    <%= live_render @socket, LiveChatWeb.SidebarLive, session: %{visible: @sidebar_open?, view: @sidebar_view, data: @sidebar_data}, container: {:div, class: "sidebar"} %>
   </div>
 </div>

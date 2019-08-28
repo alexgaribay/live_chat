@@ -1,5 +1,12 @@
-<div class="sidebar-content <%= sidebar_class(@visible) %>">
-  <%= for {name, _} <- @users do %>
-    <p> <%= name %> </p>
+<div class="sidebar-content <%= sidebar_class(@visible, @view) %>">
+  <%= if @view == :user_list do %>
+    <%= for {name, _} <- @users do %>
+      <p> <%= name %> </p>
+    <% end %>
+  <% end %>
+  <%= if @view == :user_profile do %>
+    <img class="avatar" src="<%= gravatar_url(@data.email) %>">
+    <strong><%= @data.name %></strong>
+    <p><%= @data.email %>
   <% end %>
 </div>

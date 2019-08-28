@@ -3,18 +3,17 @@ defmodule LiveChatWeb.SidebarLive do
   alias LiveChatWeb.ChatView
   alias LiveChat.Presence
 
-  def mount(%{visible: visible}, socket) do
+  def mount(%{visible: visible, view: view} = session, socket) do
     if connected?(socket) do
       Phoenix.PubSub.subscribe(LiveChat.PubSub, "lobby:presence")
     end
-    assigns = [
-      visible: visible,
-      users: %{}
-    ]
+
     socket =
       socket
-      |> assign(assigns)
+      |> assign(session)
+      |> assign(:users, %{})
       |> handle_joins(Presence.list("lobby:presence"))
+
     {:ok, socket}
   end
 
